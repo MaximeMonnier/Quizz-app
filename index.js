@@ -49,7 +49,7 @@ class Quiz {
     this.currentQuestionsIndex++;
   }
   hasEnded(){
-    return this.currentQuestionsIndex >= this.questions.lenght;
+    return this.currentQuestionsIndex >= this.questions.length;
   }
 }
 
@@ -61,15 +61,43 @@ const display = {
   },
   question: function () {
     this.elementShown('question', quiz.getcurrentQuestion().text)
-  } 
-}
+  },
+  choices: function() {
+    let choices = quiz.getcurrentQuestion().choices;
+
+    guessHandler = (id, guess) => {
+      document.getElementById(id).onclick = function () {
+        quiz.guess(guess);
+        quizApp();
+      }
+    }
+    // Display choice and user choice
+    for (let i = 0; i< choices.length; i++){
+      this.elementShown("choice" + i, choices[i]);
+      guessHandler('guess' + i, choices[i]);
+    }
+  },
+  progress: function() {
+    this.elementShown("progress", `Question ${quiz.currentQuestionsIndex + 1} sur ${quiz.questions.lenth}`);
+  },
+  endQuiz: function() {
+    let endQuizHTML = `
+    <h1>Quiz terminer ! </h1>
+    <h3>Votre score est de : ${quiz.score} / ${quiz.questions.length}</h3>
+    `;
+    this.elementShown("quiz", endQuizHTML);
+  },
+};
 // Game logic
 quizApp = () => {
   if (quiz.hasEnded()){
     //Screen end
+    display.endQuiz();
   } else {
     // Display question and choice
     display.question();
+    display.choices();
+    display.progress();
   }
 }
 
