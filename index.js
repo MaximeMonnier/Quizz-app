@@ -78,7 +78,7 @@ const display = {
     }
   },
   progress: function() {
-    this.elementShown("progress", `Question ${quiz.currentQuestionsIndex + 1} sur ${quiz.questions.lenth}`);
+    this.elementShown("progress", `Question ${quiz.currentQuestionsIndex + 1} sur ${quiz.questions.length}`);
   },
   endQuiz: function() {
     let endQuizHTML = `
